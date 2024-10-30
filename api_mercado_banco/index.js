@@ -1,21 +1,23 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const indexRoutes = require("./routes/index.routes");
-
 const conn = require("./mysql-connection");
 
 const app = express();
 
-app.use(bodyParser.json());
+app.use(express.json());
 
-app.use(indexRoutes);
+app.use("/api", indexRoutes);
 
-conn.raw('SELECT 1').then(() => {
+conn
+  .raw("SELECT 1")
+  .then(() => {
     console.log(`Banco de dados conectado com sucesso!`);
-}).catch((erro) => {
-    console.log(`Erro ao conectar ao banco de dados ${erro}`);
-});
+  })
+  .catch((erro) => {
+    console.log(`Erro ao conectar ao banco de dados: ${erro}`);
+  });
 
-app.listen(8080, () => {
-    console.log(`O servidor está rodando na porta 8080! 🚀`);
+const PORT = 8080;
+app.listen(PORT, () => {
+  console.log(`O servidor está rodando na porta ${PORT}! 🚀`);
 });
